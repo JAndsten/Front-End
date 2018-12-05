@@ -23,6 +23,8 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <link rel="stylesheet" href="./fullcalendar.css">
+
   <title>React App</title>
 </head>
 
@@ -35,6 +37,7 @@
   <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'cRoot')">Customers</button>
     <button class="tablinks" onclick="openTab(event, 'tRoot')">Sessions</button>
+    <button class="tablinks" onclick="openTab(event, 'kRoot')">Calendar</button>
   </div>
 
   <!-- Tab content -->
@@ -42,6 +45,7 @@
 
   <div id="tRoot" class="tabcontent"></div>
 
+  <div id="kRoot" class="tabcontent"></div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

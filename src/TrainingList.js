@@ -5,6 +5,7 @@ import AddTraining from './AddTraining';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import  { confirmAlert } from 'react-confirm-alert';
 import { ToastContainer, toast } from 'react-toastify';
+import Moment from 'react-moment';
 
 class TrainingList extends Component {
   state = { trainings: [] };
@@ -14,11 +15,11 @@ class TrainingList extends Component {
   }
 
   loadTrainings = () => {
-    fetch('https://customerrest.herokuapp.com/api/trainings')
+    fetch('https://customerrest.herokuapp.com/gettrainings')
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          trainings: responseData.content,
+          trainings: responseData,
         });
       })
   }
@@ -41,6 +42,7 @@ class TrainingList extends Component {
       confirmLabel: 'Yes',
       cancelLabel: 'Cancel',
       onConfirm: () => {
+        console.log(link)
         fetch(link, { method: 'DELETE' })
         .then(res => this.loadTrainings())
         .catch(err => console.error(err))
@@ -95,7 +97,13 @@ class TrainingList extends Component {
             {
               columns: [
                 {
-                  Header: "Date", accessor: "date", Cell: this.renderEditable
+                  Header: "Date", accessor: "date", Cell: this.renderEditable,
+                  Cell: row => {
+                    return (
+                          <Moment unix><span>{row.row.date}</span></Moment>
+                          /* I have no idea what I'm supposed to use for this time format. */
+                    )
+                  }
                 },
                 {
                   Header: "Duration (minutes)", accessor: "duration", Cell: this.renderEditable
@@ -104,7 +112,12 @@ class TrainingList extends Component {
                   Header: "Activity", accessor: "activity", Cell: this.renderEditable
                 },
                 {
-                  Header: "Customer", accessor: "customer"
+                  Header: "Customer", accessor: "customer", Cell: this.renderEditable,
+                  Cell: row => {
+                    return (
+                     <span>{row.row.customer.firstname + " " + row.row.customer.lastname}</span>
+                    )
+                  }
                 },
                 {
                   id: 'button',
